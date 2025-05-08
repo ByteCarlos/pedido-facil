@@ -4,7 +4,7 @@ import 'package:pedido_facil/core/api.dart';
 import 'package:pedido_facil/core/socket.dart';
 
 Future<void> main() async {
-  await dotenv.load();
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 
