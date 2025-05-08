@@ -2,38 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pedido_facil/core/api.dart';
 import 'package:pedido_facil/core/socket.dart';
+import 'package:pedido_facil/features/login/controller/login_controller.dart';
+import 'package:pedido_facil/features/login/view/login_page.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env"); // <-- Carrega o arquivo .env aqui
+
+  final apiService = ApiService();
+  final socketService = SocketService();
+  socketService.connect();
+
+  runApp(MyApp(
+    controller: LoginController(apiService, socketService),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  final apiService = ApiService();
-  final socketService = SocketService();
+  final LoginController controller;
+  const MyApp({super.key, required this.controller});
 
-  MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    socketService.connect();
-
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Exemplo API + Socket')),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              final data = await apiService.get('/users');
-              print('Dados da API: $data');
-
-              socketService.sendMessage('mensagem', {'text': 'Oi, socket!'});
-            },
-            child: const Text('Testar API e Socket'),
-          ),
-        ),
-      ),
+      home: LoginPage(controller: controller),
     );
   }
 }

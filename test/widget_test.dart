@@ -7,13 +7,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pedido_facil/core/api.dart';
+import 'package:pedido_facil/core/socket.dart';
+import 'package:pedido_facil/features/login/controller/login_controller.dart';
 
 import 'package:pedido_facil/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    final apiService = ApiService();
+    final socketService = SocketService();
+    socketService.connect();
+    await tester.pumpWidget(MyApp(controller: LoginController(apiService, socketService),));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
