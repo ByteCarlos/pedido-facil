@@ -15,8 +15,13 @@ class ApiService {
     },
   ));
 
-  Future<dynamic> get(String path) async {
-    final response = await _dio.get(path);
+  Future<dynamic> get(String path, {Map<String, dynamic>? headers}) async {
+    final response = await _dio.get(
+      path,
+      options: Options(
+        headers: headers,
+      ),
+    );
     return response.data;
   }
 

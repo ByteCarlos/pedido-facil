@@ -1,5 +1,6 @@
 import 'package:pedido_facil/core/api.dart';
 import 'package:pedido_facil/core/socket.dart';
+import 'dart:convert';
 
 class LoginController {
   final ApiService apiService;
@@ -9,12 +10,24 @@ class LoginController {
 
   void testarApiESocket() async {
     final data = await apiService.get('/users');
-    print('Dados da API: $data');
 
     socketService.sendMessage('mensagem', {'text': 'Oi, socket!'});
   }
 
-  void login() async {
-    return;
+  Future<dynamic> login(String email, String password) async {
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$email:$password'));
+
+    try {
+      final data = await apiService.get(
+        '/users/login',
+        headers: {
+          'Authorization': basicAuth,
+        },
+      );
+      return data;
+    } catch (e) {
+      print('Erro no login: $e');
+      return null;
+    }
   }
 }

@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
 import '../controller/login_controller.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final LoginController controller;
 
   const LoginPage({super.key, required this.controller});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text;
+      final password = _passwordController.text;
+
+      final result = await widget.controller.login(email, password);
+
+      if (result != null) {
+        // Login bem-sucedido — você pode navegar para outra tela
+        print('Login OK: ${result['token']}');
+        // Exemplo:
+        // Navigator.pushNamed(context, '/home');
+      } else {
+        // Falha — exibe alerta
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Falha no login. Verifique suas credenciais.')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +50,12 @@ class LoginPage extends StatelessWidget {
                 Image.asset('assets/images/logo.png', width: 180, height: 180),
                 const SizedBox(height: 30),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       // CAMPO E-MAIL
                       TextFormField(
+                        controller: _emailController,
                         decoration: InputDecoration(
                           hintText: 'E-mail',
                           prefixIcon: const Icon(Icons.email),
@@ -44,6 +76,7 @@ class LoginPage extends StatelessWidget {
 
                       // CAMPO SENHA
                       TextFormField(
+                        controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Senha',
@@ -67,13 +100,13 @@ class LoginPage extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: controller.login,
+                          onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            backgroundColor: const Color(0xFFEA1D2C)
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: const Color(0xFFEA1D2C)
                           ),
                           child: const Text(
                             "Entrar",
