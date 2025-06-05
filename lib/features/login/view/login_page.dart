@@ -15,6 +15,10 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  void _forgotPassword() async {
+    Navigator.pushReplacementNamed(context, '/forgot_password_1');
+  }
+
   void _handleLogin() async {
     Navigator.pushReplacementNamed(context, '/home');
     // if (_formKey.currentState!.validate()) {
@@ -95,7 +99,23 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 2),
+
+                      // BOTÃO ESQUECI SENHA
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: _forgotPassword,
+                          child: const Text(
+                            'Esqueci minha senha',
+                            style: TextStyle(
+                              color: Color(0xFF3E3E3E),
+                              fontWeight: FontWeight.w300
+                            ),
+                          ),
+                        ),
+                      ),
+
 
                       // BOTÃO ENTRAR
                       SizedBox(
