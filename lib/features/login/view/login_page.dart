@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import '../controller/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
-  final LoginController controller;
-
-  const LoginPage({super.key, required this.controller});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -21,24 +18,6 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLogin() async {
     Navigator.pushReplacementNamed(context, '/home');
-    // if (_formKey.currentState!.validate()) {
-    //   final email = _emailController.text;
-    //   final password = _passwordController.text;
-    //
-    //   final result = await widget.controller.login(email, password);
-    //
-    //   if (result != null) {
-    //     // Login bem-sucedido — você pode navegar para outra tela
-    //     print('Login OK: ${result['token']}');
-    //     // Exemplo:
-    //     // Navigator.pushNamed(context, '/home');
-    //   } else {
-    //     // Falha — exibe alerta
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(content: Text('Falha no login. Verifique suas credenciais.')),
-    //     );
-    //   }
-    // }
   }
 
   @override
