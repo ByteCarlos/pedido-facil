@@ -16,24 +16,25 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   void _handleLogin() async {
-    if (_formKey.currentState!.validate()) {
-      final email = _emailController.text;
-      final password = _passwordController.text;
-
-      final result = await widget.controller.login(email, password);
-
-      if (result != null) {
-        // Login bem-sucedido — você pode navegar para outra tela
-        print('Login OK: ${result['token']}');
-        // Exemplo:
-        // Navigator.pushNamed(context, '/home');
-      } else {
-        // Falha — exibe alerta
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Falha no login. Verifique suas credenciais.')),
-        );
-      }
-    }
+    Navigator.pushReplacementNamed(context, '/home');
+    // if (_formKey.currentState!.validate()) {
+    //   final email = _emailController.text;
+    //   final password = _passwordController.text;
+    //
+    //   final result = await widget.controller.login(email, password);
+    //
+    //   if (result != null) {
+    //     // Login bem-sucedido — você pode navegar para outra tela
+    //     print('Login OK: ${result['token']}');
+    //     // Exemplo:
+    //     // Navigator.pushNamed(context, '/home');
+    //   } else {
+    //     // Falha — exibe alerta
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(content: Text('Falha no login. Verifique suas credenciais.')),
+    //     );
+    //   }
+    // }
   }
 
   @override
